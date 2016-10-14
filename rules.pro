@@ -17,13 +17,21 @@ score(Board, S) :-
 		rowscore(Row2, Score2),
 		rowscore(Row3, Score3),
 		rowscore(Row4, Score4),
-		rowscore(Row5, Score5),
-		rowscore(Row6, Score6),
-		rowscore(Row7, Score7),
-		rowscore(Row8, Score8),
+		rowscore(Col1, Score5),
+		rowscore(Col2, Score6),
+		rowscore(Col3, Score7),
+		rowscore(Col4, Score8),
 		sum_list([Score1, Score2, Score3, Score4, Score5, Score6, Score7, Score8], S).
 
-rowscore(Row, Sum) :- Sum = 1.
+rowscore(Row, Sum) :- 
+		Row = [A, B, C, D],
+		atom_concat(A, B, AB),
+		atom_concat(AB, C, ABC),
+		atom_concat(ABC, D, ABCD),
+		word(ABCD),
+		Sum = 1.
+
+rowscore(Row, Sum) :- Sum = 0.
 
 rows(Board, Row1, Row2, Row3, Row4) :- 
 		Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P],
@@ -34,10 +42,10 @@ rows(Board, Row1, Row2, Row3, Row4) :-
 
 cols(Board, Col1, Col2, Col3, Col4) :- 
 		Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P],
-		Row1 = [A, E, I, M],
-		Row2 = [B, F, J, N],
-		Row3 = [C, G, K, O],
-		Row4 = [D, H, L, P].
+		Col1 = [A, E, I, M],
+		Col2 = [B, F, J, N],
+		Col3 = [C, G, K, O],
+		Col4 = [D, H, L, P].
 
 sum_list(L, R) :- sum_list(L, 0, R).
 sum_list([], F, F).
