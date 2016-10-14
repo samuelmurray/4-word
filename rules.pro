@@ -2,8 +2,6 @@
 % To watch the computer play a game with itself, type
 % selfgame.
 
-:- ensure_loaded(words).
-
 % Predicates that calculate score of full board.
 
 score(Board, S) :- 	
@@ -23,15 +21,32 @@ score(Board, S) :-
 		rowscore(Col4, Score8),
 		sum_list([Score1, Score2, Score3, Score4, Score5, Score6, Score7, Score8], S).
 
-rowscore(Row, Sum) :- 
-		Row = [A, B, C, D],
-		atom_concat(A, B, AB),
-		atom_concat(AB, C, ABC),
-		atom_concat(ABC, D, ABCD),
-		word(ABCD),
-		Sum = 1.
+rowscore(Row, Score) :- 
+		(Row = [A, B, C, D] ->
+			atom_concat(A, B, AB),
+			atom_concat(B, C, BC),
+			atom_concat(C, D, CD),
+			atom_concat(AB, C, ABC),
+			atom_concat(BC, D, BCD),
+			atom_concat(ABC, D, ABCD),
+			atomscore(AB, S1),
+			atomscore(BC, S2),
+			atomscore(CD, S3),
+			atomscore(ABC, S4),
+			atomscore(BCD, S5),
+			atomscore(ABCD, S6),
+			sum_list([S1, S2, S3, S4, S5, S6], Score)
+			;
+			Score = 0
+		).
 
-rowscore(Row, Sum) :- Sum = 0.
+
+atomscore(A, S) :-
+		(word(A) -> 
+			atom_length(A, S)
+			;
+			S = 0
+		).
 
 rows(Board, Row1, Row2, Row3, Row4) :- 
 		Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P],
