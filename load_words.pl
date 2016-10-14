@@ -1,5 +1,6 @@
-% A 4-word program in Prolog. Samuel Murray, October 2016.
-% Imports all words.
+% A 4-word program in Prolog. Samuel Murray.
+
+% Predicates to import all word lists.
 
 :- dynamic word/1.
 

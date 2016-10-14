@@ -1,4 +1,4 @@
-% A 4-word program in Prolog. Samuel Murray, October 2016.
+% A 4-word program in Prolog. Samuel Murray.
 
 % Predicates that splits a board into rows and columns.
 

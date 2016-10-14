@@ -1,6 +1,6 @@
-% A 4-word program in Prolog. Samuel Murray, October 2016.
-% To watch the computer play a game with itself, type
-% selfgame.
+% A 4-word program in Prolog. Samuel Murray.
+
+% Entrance point to program
 
 :- consult(load_words).
 :- consult(rules).
