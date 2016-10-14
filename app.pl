@@ -2,8 +2,10 @@
 % To watch the computer play a game with itself, type
 % selfgame.
 
-:- ensure_loaded(load_words).
+:- consult(load_words).
 :- consult(rules).
+:- consult(score).
+:- consult(util).
 
 % Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P]
 
