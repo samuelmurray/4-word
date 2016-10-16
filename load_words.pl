@@ -9,12 +9,12 @@ load_words(File) :-
 		read_words(Stream).
 
 read_words(Stream) :-
-        read(Stream, T0),
-        load_words(T0, Stream).
+		read(Stream, T0),
+		read_words(T0, Stream).
 
-load_words(end_of_file, _) :- !.
+read_words(end_of_file, _) :- !.
 
-load_words(Word, Stream) :- !,
-        assert(word(Word)),
-        read(Stream, T2),
-        load_words(T2, Stream).
+read_words(Word, Stream) :- !,
+		assert(word(Word)),
+		read(Stream, T2),
+		read_words(T2, Stream).

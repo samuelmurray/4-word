@@ -1,6 +1,6 @@
 % A 4-word program in Prolog. Samuel Murray.
 
-% Entrance point to program
+% Entry point to program
 
 :- consult(game).
 :- consult(ai).
@@ -8,8 +8,6 @@
 :- consult(score).
 :- consult(util).
 :- use_module(library(lists)).
-
-% Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P]
 
 :- load_words('words2.txt').
 :- load_words('words3.txt').

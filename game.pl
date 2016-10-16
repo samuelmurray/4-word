@@ -5,7 +5,6 @@
 :- ensure_loaded(board).
 :- ensure_loaded(score).
 
-%play :- explain, playfrom([a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a]).
 play :- emptyboard(Board), explain(Board), playfrom(Board).
 
 explain(Startboard) :-
@@ -18,6 +17,7 @@ playfrom(Board) :-
 		write('Your board is full!'), nl,
 		score(Board, S),
 		write('Your score was: '), display(S).
+
 playfrom(Board) :- 
 		read(A), read(X), read(Y),
 		move(Board, A, X, Y, Newboard), 

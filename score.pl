@@ -5,10 +5,7 @@
 :- ensure_loaded(board).
 
 score(Board, S) :- 	
-		Board = [_, _, _, _, 
-				 _, _, _, _,
-				 _, _, _, _,
-				 _, _, _, _],
+		board(Board),
 		rows(Board, Row1, Row2, Row3, Row4),
 		cols(Board, Col1, Col2, Col3, Col4),
 		rowscore(Row1, Score1),
