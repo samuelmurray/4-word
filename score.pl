@@ -32,7 +32,7 @@ rowscore(Row, Score) :-
 			atomscore(ABC, S4),
 			atomscore(BCD, S5),
 			atomscore(ABCD, S6),
-			sum_list([S1, S2, S3, S4, S5, S6], Score)
+			sumlist([S1, S2, S3, S4, S5, S6], Score)
 			;
 			Score = 0
 		).
