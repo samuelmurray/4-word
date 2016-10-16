@@ -19,7 +19,7 @@ score(Board, S) :-
 		rowscore(Col2, Score6),
 		rowscore(Col3, Score7),
 		rowscore(Col4, Score8),
-		sum_list([Score1, Score2, Score3, Score4, Score5, Score6, Score7, Score8], S).
+		sumlist([Score1, Score2, Score3, Score4, Score5, Score6, Score7, Score8], S).
 
 rowscore(Row, Score) :- 
 		(Row = [A, B, C, D] ->
