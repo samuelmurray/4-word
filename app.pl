@@ -2,8 +2,8 @@
 
 % Entrance point to program
 
+:- consult(game).
 :- consult(load_words).
-:- consult(rules).
 :- consult(score).
 :- consult(util).
 
