@@ -34,7 +34,7 @@ playsolo(Board) :-
 		fullboard(Board), 
 		eog(Board).
 playsolo(Board) :- 
-		chooseletterandposition(Board, L, Newboard),
+		chooseletterandposition(Board, Newboard),
 		playsolo(Newboard).
 
 %
