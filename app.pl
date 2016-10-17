@@ -14,8 +14,9 @@
 :- load_words('words3.txt').
 :- load_words('words4.txt').
 
-% There are 3 game modes:
+% There are several game modes:
 % 	solo - you choose all letters by yourself
 % 	random - letters are chosen randomly for you
 % 	versus - two player game, where you alternate to choose letter
+%	vsai - you play vs an ai, where you alternate to choose letter
 % To start a new game, type "play(MODE)" with one of the modes above

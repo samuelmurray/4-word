@@ -2,8 +2,13 @@
 
 % Predicates that operate on a gameboard.
 
+:- use_module(library(random)).
+
 board(Board) :- Board = [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_].
+
 emptyboard(Board) :- Board = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0].
+
+randomboard(Board, Randomboard) :- board(Board), random_permutation(Board, Randomboard).
 
 fullboard(Board) :-
 		Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P],

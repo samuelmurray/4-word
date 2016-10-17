@@ -11,6 +11,7 @@ play(Mode) :- explain, playmode(Mode).
 playmode(solo) :- emptyboard(Board), playsolo(Board).
 playmode(random) :- emptyboard(Board), playrandom(Board).
 playmode(versus) :- emptyboard(Board), playversus(Board, Board, 1).
+playmode(vsai) :- emptyboard(Board), playvsai(Board).
 
 explain :- 
 		write('The goal of this game is to fill the board with letter that make up words.'), nl,
@@ -24,13 +25,12 @@ eog(Board) :-
 		score(Board, S),
 		write('Your score was: '), display(S).
 
-eog(Board2, Board2, Player) :-
-	other(Player, other),
-		displayboard(Board),
+eog(Board1, Board2, Player) :-
+		other(Player, Other),
 		write('The boards are full!'), nl,
-		write('Player '), display(Player) write(' final board'),
+		write('Player '), display(Player), write(' final board'),
 		displayboard(Board1), nl,
-		write('Player '), display(Other) write(' final board'),
+		write('Player '), display(Other), write(' final board'),
 		displayboard(Board2), nl,
 		score(Board1, S1),
 		score(Board2, S2),
@@ -65,6 +65,20 @@ playversus(Board1, Board2, Player) :-
 		write('--- Player '), display(Other), write(' ---'),
 		chooseposition(Board2, L, Newboard2), nl, nl,
 		playversus(Newboard2, Newboard1, Other).
+
+other(human, ai).
+other(ai, human).
+
+playvsai(Board) :-
+		fullboard(Board),
+		randomboard(Board, Boardai),
+		eog(Board, Boardai, human).
+playvsai(Board) :-
+		chooseletterandposition(Board, L1, Newboard1),
+		randomletter(L2),
+		nl, write('The AI chose next letter: '), display(L2),
+		chooseposition(Newboard1, L2, Newboard2),
+		playvsai(Newboard2).
 
 chooseletterandposition(Board, Newboard) :- chooseletterandposition(Board, L, Newboard).
 chooseletterandposition(Board, L, Newboard) :-
