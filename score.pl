@@ -19,23 +19,21 @@ score(Board, S) :-
 		sumlist([Score1, Score2, Score3, Score4, Score5, Score6, Score7, Score8], S).
 
 rowscore(Row, Score) :- 
-		(Row = [A, B, C, D] ->
-			atom_concat(A, B, AB),
-			atom_concat(B, C, BC),
-			atom_concat(C, D, CD),
-			atom_concat(AB, C, ABC),
-			atom_concat(BC, D, BCD),
-			atom_concat(ABC, D, ABCD),
-			atomscore(AB, S1),
-			atomscore(BC, S2),
-			atomscore(CD, S3),
-			atomscore(ABC, S4),
-			atomscore(BCD, S5),
-			atomscore(ABCD, S6),
-			sumlist([S1, S2, S3, S4, S5, S6], Score)
-			;
-			Score = 0
-		).
+		Row = [A, B, C, D]
+		atom_concat(A, B, AB),
+		atom_concat(B, C, BC),
+		atom_concat(C, D, CD),
+		atom_concat(AB, C, ABC),
+		atom_concat(BC, D, BCD),
+		atom_concat(ABC, D, ABCD),
+		atomscore(AB, S1),
+		atomscore(BC, S2),
+		atomscore(CD, S3),
+		atomscore(ABC, S4),
+		atomscore(BCD, S5),
+		atomscore(ABCD, S6),
+		sumlist([S1, S2, S3, S4, S5, S6], Score)
+	
 
 atomscore(A, S) :-
 		(word(A) -> 
