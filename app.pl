@@ -14,10 +14,8 @@
 :- load_words('words3.txt').
 :- load_words('words4.txt').
 
-a(S) :- Board = [a, a, h, s, 
-				e, f, g, h, 
-				i, j, k, l, 
-				m, n, o, p],
-		score(Board, S).
-
-t :- optimalboard(Board), displayboard(Board).
+% There are 3 game modes:
+% 	solo - you choose all letters by yourself
+% 	random - letters are chosen randomly for you
+% 	versus - two player game, where you alternate to choose letter
+% To start a new game, type "play(MODE)" with one of the modes above
