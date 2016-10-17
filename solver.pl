@@ -6,17 +6,19 @@
 :- ensure_loaded(score).
 
 % Does not find solution for Goal = 14. 
-% Succeeds for Goal = 13 - score 110
+% Succeeds for Goal = 13
+% 	Score = 110
 %	lame
 %	ahem
 %	menu
 %	emus
-%
+
 optimalboard(Goal) :-
 		optimalboard(Goal, Board),
 		displayboard(Board),
 		score(Board, S),
 		write('The found board has score: '), display(S).
+
 optimalboard(Goal, Board) :-
 		Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P],
 		% Row1
