@@ -1,9 +1,11 @@
-% A 4-word program in Prolog. Samuel Murray.
-
-% Predicates that calculate score of full board.
+%
+%	Predicates that calculate score of full board.
+%
 
 :- ensure_loaded(board).
 
+% score(+Board, -S)
+%	Calculate the score for Board, by summing the score of each row and column
 score(Board, S) :- 	
 		board(Board),
 		rows(Board, Row1, Row2, Row3, Row4),
@@ -18,6 +20,8 @@ score(Board, S) :-
 		rowscore(Col4, Score8),
 		sumlist([Score1, Score2, Score3, Score4, Score5, Score6, Score7, Score8], S).
 
+% rowscore(+Row, -Score)
+%	Split the row into words of length 2, 3 and 4. Sum the score of each word
 rowscore(Row, Score) :- 
 		Row = [A, B, C, D]
 		atom_concat(A, B, AB),
@@ -33,11 +37,12 @@ rowscore(Row, Score) :-
 		atomscore(BCD, S5),
 		atomscore(ABCD, S6),
 		sumlist([S1, S2, S3, S4, S5, S6], Score)
-	
 
-atomscore(A, S) :-
+% atomscore(+A, -S)
+%	Return length(A) if A is a word, otherwise 0
+atomscore(A, Score) :-
 		(word(A) -> 
-			atom_length(A, S)
+			atom_length(A, Score)
 			;
-			S = 0
+			Score = 0
 		).

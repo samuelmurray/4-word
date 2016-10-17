@@ -1,17 +1,20 @@
-% A 4-word program in Prolog. Samuel Murray.
-
-% Predicates to simulate AI player.
+%
+%	Predicates used to find high scoring boards.
+%
 
 :- ensure_loaded(board).
 :- ensure_loaded(score).
 
-% Does not find solution for Goal = 14. 
-% Succeeds for Goal = 13
-% 	Score = 110
-%	lame
-%	ahem
-%	menu
-%	emus
+% optimalboard(+Goal)
+%		Tries to find a board with each row and column having score >= Goal
+%		Does not find solution for Goal = 14
+% 		Succeeds for Goal = 13 (Score = 110)
+%
+%				lame
+%				ahem
+%				menu
+%				emus
+%
 
 optimalboard(Goal) :-
 		optimalboard(Goal, Board),

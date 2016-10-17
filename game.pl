@@ -1,11 +1,14 @@
-% A 4-word program in Prolog. Samuel Murray.
-
-% Predicates that handle the game loop.
+%
+% 	Predicates that handle the game loop.
+%
 
 :- ensure_loaded(board).
 :- ensure_loaded(score).
 :- ensure_loaded(alphabet).
 
+% play(+Mode)
+%	Choose between one of the modes below to start a new game
+%	The game runs until the board is full, at which point the score is calculated
 play(Mode) :- explain, playmode(Mode).
 
 playmode(solo) :- emptyboard(Board), playsolo(Board).
@@ -19,6 +22,89 @@ explain :-
 		write('When it is your turn, enter a letter or position (x and y values, 1-4) ending with . (period) and ENTER between each input.'), nl,
 		write('Good luck!'), nl, nl.
 
+%
+%		------------
+%  		 Mode: solo
+% 		------------
+%		Solitaire game mode. The player chooses all letters and all positions. 
+%		Goal is to find a board with maximal score.
+%
+
+playsolo(Board) :- 
+		fullboard(Board), 
+		eog(Board).
+playsolo(Board) :- 
+		chooseletterandposition(Board, L, Newboard),
+		playsolo(Newboard).
+
+%
+%		--------------
+%  		 Mode: random
+% 		--------------
+%		Solitaire game mode. The player recieves random letters and chooses only the positions. 
+%		Goal is to find a board with maximal score given the letters.
+%
+
+playrandom(Board) :-
+		fullboard(Board),
+		eog(Board).
+playrandom(Board) :-
+		randomletter(L),
+		chooseposition(Board, L, Newboard),
+		playrandom(Newboard).
+
+%
+%		--------------
+%  		 Mode: versus
+% 		--------------
+%		Two player game mode. The players alternate to choose letters, and place them on individual boards. 
+%		Goal is to get a higher score than your opponent.
+%
+
+other(1, 2).
+other(2, 1).
+
+playversus(Board1, Board2, Player) :-
+		fullboard(Board1), fullboard(Board2),
+		eog(Board1, Board2, Player).
+playversus(Board1, Board2, Player) :-
+		write('--- Player '), display(Player), write(' ---'),
+		chooseletterandposition(Board1, L, Newboard1), nl, nl,
+		other(Player, Other),
+		write('--- Player '), display(Other), write(' ---'),
+		chooseposition(Board2, L, Newboard2), nl, nl,
+		playversus(Newboard2, Newboard1, Other).
+
+%
+%		------------
+%  		 Mode: vsai
+% 		------------
+%		Two player game mode where the opponent is an AI. The player and the AI alternate to choose letters, and place them on individual boards. 
+%		Goal is to get a higher score than the AI.
+%
+
+other(human, ai).
+other(ai, human).
+
+playvsai(Board) :-
+		fullboard(Board),
+		randomboard(Board, Boardai),
+		eog(Board, Boardai, human).
+playvsai(Board) :-
+		chooseletterandposition(Board, L1, Newboard1),
+		randomletter(L2),
+		nl, write('The AI chose next letter: '), display(L2),
+		chooseposition(Newboard1, L2, Newboard2),
+		playvsai(Newboard2).
+
+%
+%		-------------------
+%		 Shared predicates
+%		-------------------
+%
+
+% eog(+Board (+Board2, +Player))
+%	Calculate score and show final output for finished games
 eog(Board) :-
 		write('The board is full!'),
 		displayboard(Board),
@@ -37,49 +123,8 @@ eog(Board1, Board2, Player) :-
 		write('Player '), display(Player), write(' score was: '), display(S1), nl,
 		write('Player '), display(Other), write(' score was: '), display(S2).
 
-playsolo(Board) :- 
-		fullboard(Board), 
-		eog(Board).
-playsolo(Board) :- 
-		chooseletterandposition(Board, L, Newboard),
-		playsolo(Newboard).
-
-playrandom(Board) :-
-		fullboard(Board),
-		eog(Board).
-playrandom(Board) :-
-		randomletter(L),
-		chooseposition(Board, L, Newboard),
-		playrandom(Newboard).
-
-other(1, 2).
-other(2, 1).
-
-playversus(Board1, Board2, Player) :-
-		fullboard(Board1), fullboard(Board2),
-		eog(Board1, Board2, Player).
-playversus(Board1, Board2, Player) :-
-		write('--- Player '), display(Player), write(' ---'),
-		chooseletterandposition(Board1, L, Newboard1), nl, nl,
-		other(Player, Other),
-		write('--- Player '), display(Other), write(' ---'),
-		chooseposition(Board2, L, Newboard2), nl, nl,
-		playversus(Newboard2, Newboard1, Other).
-
-other(human, ai).
-other(ai, human).
-
-playvsai(Board) :-
-		fullboard(Board),
-		randomboard(Board, Boardai),
-		eog(Board, Boardai, human).
-playvsai(Board) :-
-		chooseletterandposition(Board, L1, Newboard1),
-		randomletter(L2),
-		nl, write('The AI chose next letter: '), display(L2),
-		chooseposition(Newboard1, L2, Newboard2),
-		playvsai(Newboard2).
-
+% chooseletterandposition(+Board, (-L), -Newboard)
+%	Read input from player and make sure it's an allowed move
 chooseletterandposition(Board, Newboard) :- chooseletterandposition(Board, L, Newboard).
 chooseletterandposition(Board, L, Newboard) :-
 		displayboard(Board),
@@ -92,6 +137,8 @@ chooseletterandposition(Board, L, Newboard) :-
 			Newboard = Res
 		).
 
+% chooseposition(+Board, +L, -Newboard)
+%	Read input from player and make sure it's an allowed move
 chooseposition(Board, L, Newboard) :-
 		displayboard(Board),
 		write('Choose position for letter: '), display(L), nl,
@@ -103,6 +150,9 @@ chooseposition(Board, L, Newboard) :-
 			Newboard = Res
 		).
 
+% move(+Board, +L, +X, +Y, -Newboard)
+%	Place letter L in position (X,Y), return resulting board Newboard
+%	If the move is invalid (L not letter, (X,Y) occupied or outside board), unify Newboard to "false"
 move([0, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 1, [New, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
 move([A, 0, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 2, [A, New, C, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
 move([A, B, 0, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 3, [A, B, New, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
