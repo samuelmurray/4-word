@@ -13,6 +13,7 @@ The code is separated into multiple files:
 * **game.pl** - Handles the game-loop. Most of code is here.
 * **solver.pl** - Alternative way to interact with the game.
 * **board.pl**, **score.pl**, **load_words.pl**, **alphabet.pl** - Help functions used by **main.pl**, **game.pl** and **solver.pl**.
+* **wordsX.txt** - Text documents containing all words. The lists are from http://www.litscape.com/words/length/4_letters/4_letter_words.html.
 
 ## How to run:
 
