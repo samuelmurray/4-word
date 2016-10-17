@@ -18,6 +18,7 @@
 
 optimalboard(Goal) :-
 		optimalboard(Goal, Board),
+		!,
 		displayboard(Board),
 		score(Board, S),
 		write('The found board has score: '), display(S).

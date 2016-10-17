@@ -11,10 +11,10 @@
 %	The game runs until the board is full, at which point the score is calculated
 play(Mode) :- explain, playmode(Mode).
 
-playmode(solo) :- emptyboard(Board), playsolo(Board).
-playmode(random) :- emptyboard(Board), playrandom(Board).
-playmode(versus) :- emptyboard(Board), playversus(Board, Board, 1).
-playmode(vsai) :- emptyboard(Board), playvsai(Board).
+playmode(solo) :- !, emptyboard(Board), playsolo(Board).
+playmode(random) :- !, emptyboard(Board), playrandom(Board).
+playmode(versus) :- !, emptyboard(Board), playversus(Board, Board, 1).
+playmode(vsai) :- !, emptyboard(Board), playvsai(Board).
 
 explain :- 
 		write('The goal of this game is to fill the board with letter that make up words.'), nl,
@@ -32,6 +32,7 @@ explain :-
 
 playsolo(Board) :- 
 		fullboard(Board), 
+		!,
 		eog(Board).
 playsolo(Board) :- 
 		chooseletterandposition(Board, Newboard),
@@ -47,6 +48,7 @@ playsolo(Board) :-
 
 playrandom(Board) :-
 		fullboard(Board),
+		!,
 		eog(Board).
 playrandom(Board) :-
 		randomletter(L),
@@ -61,11 +63,12 @@ playrandom(Board) :-
 %		Goal is to get a higher score than your opponent.
 %
 
-other(1, 2).
-other(2, 1).
+other(1, 2) :- !.
+other(2, 1) :- !.
 
 playversus(Board1, Board2, Player) :-
 		fullboard(Board1), fullboard(Board2),
+		!,
 		eog(Board1, Board2, Player).
 playversus(Board1, Board2, Player) :-
 		write('--- Player '), display(Player), write(' ---'),
@@ -83,11 +86,12 @@ playversus(Board1, Board2, Player) :-
 %		Goal is to get a higher score than the AI.
 %
 
-other(human, ai).
-other(ai, human).
+other(human, ai) :- !.
+other(ai, human) :- !.
 
 playvsai(Board) :-
 		fullboard(Board),
+		!,
 		randomboard(Board, Boardai),
 		eog(Board, Boardai, human).
 playvsai(Board) :-
@@ -153,20 +157,20 @@ chooseposition(Board, L, Newboard) :-
 % move(+Board, +L, +X, +Y, -Newboard)
 %	Place letter L in position (X,Y), return resulting board Newboard
 %	If the move is invalid (L not letter, (X,Y) occupied or outside board), unify Newboard to "false"
-move([0, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 1, [New, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
-move([A, 0, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 2, [A, New, C, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
-move([A, B, 0, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 3, [A, B, New, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
-move([A, B, C, 0, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 4, [A, B, C, New, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
-move([A, B, C, D, 0, F, G, H, I, J, K, L, M, N, O, P], New, 2, 1, [A, B, C, D, New, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
-move([A, B, C, D, E, 0, G, H, I, J, K, L, M, N, O, P], New, 2, 2, [A, B, C, D, E, New, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
-move([A, B, C, D, E, F, 0, H, I, J, K, L, M, N, O, P], New, 2, 3, [A, B, C, D, E, F, New, H, I, J, K, L, M, N, O, P]) :- letter(New).
-move([A, B, C, D, E, F, G, 0, I, J, K, L, M, N, O, P], New, 2, 4, [A, B, C, D, E, F, G, New, I, J, K, L, M, N, O, P]) :- letter(New).
-move([A, B, C, D, E, F, G, H, 0, J, K, L, M, N, O, P], New, 3, 1, [A, B, C, D, E, F, G, H, New, J, K, L, M, N, O, P]) :- letter(New).
-move([A, B, C, D, E, F, G, H, I, 0, K, L, M, N, O, P], New, 3, 2, [A, B, C, D, E, F, G, H, I, New, K, L, M, N, O, P]) :- letter(New).
-move([A, B, C, D, E, F, G, H, I, J, 0, L, M, N, O, P], New, 3, 3, [A, B, C, D, E, F, G, H, I, J, New, L, M, N, O, P]) :- letter(New).
-move([A, B, C, D, E, F, G, H, I, J, K, 0, M, N, O, P], New, 3, 4, [A, B, C, D, E, F, G, H, I, J, K, New, M, N, O, P]) :- letter(New).
-move([A, B, C, D, E, F, G, H, I, J, K, L, 0, N, O, P], New, 4, 1, [A, B, C, D, E, F, G, H, I, J, K, L, New, N, O, P]) :- letter(New).
-move([A, B, C, D, E, F, G, H, I, J, K, L, M, 0, O, P], New, 4, 2, [A, B, C, D, E, F, G, H, I, J, K, L, M, New, O, P]) :- letter(New).
-move([A, B, C, D, E, F, G, H, I, J, K, L, M, N, 0, P], New, 4, 3, [A, B, C, D, E, F, G, H, I, J, K, L, M, N, New, P]) :- letter(New).
-move([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, 0], New, 4, 4, [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, New]) :- letter(New).
+move([0, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 1, [New, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New), !.
+move([A, 0, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 2, [A, New, C, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New), !.
+move([A, B, 0, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 3, [A, B, New, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New), !.
+move([A, B, C, 0, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 4, [A, B, C, New, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New), !.
+move([A, B, C, D, 0, F, G, H, I, J, K, L, M, N, O, P], New, 2, 1, [A, B, C, D, New, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New), !.
+move([A, B, C, D, E, 0, G, H, I, J, K, L, M, N, O, P], New, 2, 2, [A, B, C, D, E, New, G, H, I, J, K, L, M, N, O, P]) :- letter(New), !.
+move([A, B, C, D, E, F, 0, H, I, J, K, L, M, N, O, P], New, 2, 3, [A, B, C, D, E, F, New, H, I, J, K, L, M, N, O, P]) :- letter(New), !.
+move([A, B, C, D, E, F, G, 0, I, J, K, L, M, N, O, P], New, 2, 4, [A, B, C, D, E, F, G, New, I, J, K, L, M, N, O, P]) :- letter(New), !.
+move([A, B, C, D, E, F, G, H, 0, J, K, L, M, N, O, P], New, 3, 1, [A, B, C, D, E, F, G, H, New, J, K, L, M, N, O, P]) :- letter(New), !.
+move([A, B, C, D, E, F, G, H, I, 0, K, L, M, N, O, P], New, 3, 2, [A, B, C, D, E, F, G, H, I, New, K, L, M, N, O, P]) :- letter(New), !.
+move([A, B, C, D, E, F, G, H, I, J, 0, L, M, N, O, P], New, 3, 3, [A, B, C, D, E, F, G, H, I, J, New, L, M, N, O, P]) :- letter(New), !.
+move([A, B, C, D, E, F, G, H, I, J, K, 0, M, N, O, P], New, 3, 4, [A, B, C, D, E, F, G, H, I, J, K, New, M, N, O, P]) :- letter(New), !.
+move([A, B, C, D, E, F, G, H, I, J, K, L, 0, N, O, P], New, 4, 1, [A, B, C, D, E, F, G, H, I, J, K, L, New, N, O, P]) :- letter(New), !.
+move([A, B, C, D, E, F, G, H, I, J, K, L, M, 0, O, P], New, 4, 2, [A, B, C, D, E, F, G, H, I, J, K, L, M, New, O, P]) :- letter(New), !.
+move([A, B, C, D, E, F, G, H, I, J, K, L, M, N, 0, P], New, 4, 3, [A, B, C, D, E, F, G, H, I, J, K, L, M, N, New, P]) :- letter(New), !.
+move([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, 0], New, 4, 4, [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, New]) :- letter(New), !.
 move(Board, New, X, Y, false) :- nl, write('ILLEGAL MOVE!'), nl.
