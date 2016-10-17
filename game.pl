@@ -10,7 +10,7 @@ play(Mode) :- explain, playmode(Mode).
 
 playmode(solo) :- emptyboard(Board), playsolo(Board).
 playmode(random) :- emptyboard(Board), playrandom(Board).
-playmode(versus) :- emptyboard(Board), playversus(Board, Board).
+playmode(versus) :- emptyboard(Board), playversus(Board, Board, 1).
 
 explain :- 
 		write('The goal of this game is to fill the board with letter that make up words.'), nl,
@@ -24,17 +24,18 @@ eog(Board) :-
 		score(Board, S),
 		write('Your score was: '), display(S).
 
-eog(Board2, Board2) :-
+eog(Board2, Board2, Player) :-
+	other(Player, other),
 		displayboard(Board),
 		write('The boards are full!'), nl,
-		write('Player 1 final board'),
-		displayboard(Board1),
-		write('Player 2 final board'),
-		displayboard(Board2),
+		write('Player '), display(Player) write(' final board'),
+		displayboard(Board1), nl,
+		write('Player '), display(Other) write(' final board'),
+		displayboard(Board2), nl,
 		score(Board1, S1),
 		score(Board2, S2),
-		write('Player 1 score was: '), display(S1), nl,
-		write('Player 2 score was: '), display(S2).
+		write('Player '), display(Player), write(' score was: '), display(S1), nl,
+		write('Player '), display(Other), write(' score was: '), display(S2).
 
 playsolo(Board) :- 
 		fullboard(Board), 
@@ -47,37 +48,46 @@ playrandom(Board) :-
 		fullboard(Board),
 		eog(Board).
 playrandom(Board) :-
-		write('Generating random letter...'), nl,
 		randomletter(L),
 		chooseposition(Board, L, Newboard),
 		playrandom(Newboard).
 
-playversus(Board1, Board2) :-
+other(1, 2).
+other(2, 1).
+
+playversus(Board1, Board2, Player) :-
 		fullboard(Board1), fullboard(Board2),
-		eog(Board1, Board2).
-playversus(Board1, Board2) :-
-		write('--- Player 1 ---'),
-		chooseletterandposition(Board1, L1, Newboard11), nl, nl,
-		write('--- Player 2 ---'),
-		chooseposition(Board2, L1, Newboard21), nl, nl,
-		write('--- Player 2 ---'),
-		chooseletterandposition(Newboard21, L2, Newboard22), nl, nl,
-		write('--- Player 1 ---'),
-		chooseposition(Newboard11, L2, Newboard12), nl, nl,
-		playversus(Newboard12, Newboard22).
+		eog(Board1, Board2, Player).
+playversus(Board1, Board2, Player) :-
+		write('--- Player '), display(Player), write(' ---'),
+		chooseletterandposition(Board1, L, Newboard1), nl, nl,
+		other(Player, Other),
+		write('--- Player '), display(Other), write(' ---'),
+		chooseposition(Board2, L, Newboard2), nl, nl,
+		playversus(Newboard2, Newboard1, Other).
 
 chooseletterandposition(Board, Newboard) :- chooseletterandposition(Board, L, Newboard).
 chooseletterandposition(Board, L, Newboard) :-
 		displayboard(Board),
 		write('Choose a letter and position.'), nl,
 		read(L), read(X), read(Y),
-		move(Board, L, X, Y, Newboard).
+		move(Board, L, X, Y, Res),
+		(Res = false -> 
+			chooseletterandposition(Board, Lnew, Newboard)
+			;
+			Newboard = Res
+		).
 
 chooseposition(Board, L, Newboard) :-
 		displayboard(Board),
 		write('Choose position for letter: '), display(L), nl,
 		read(X), read(Y),
-		move(Board, L, X, Y, Newboard).
+		move(Board, L, X, Y, Res),
+		(Res = false ->
+			chooseposition(Board, L, Newboard)
+			;
+			Newboard = Res
+		).
 
 move([0, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 1, [New, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
 move([A, 0, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 2, [A, New, C, D, E, F, G, H, I, J, K, L, M, N, O, P]) :- letter(New).
@@ -95,4 +105,4 @@ move([A, B, C, D, E, F, G, H, I, J, K, L, 0, N, O, P], New, 4, 1, [A, B, C, D, E
 move([A, B, C, D, E, F, G, H, I, J, K, L, M, 0, O, P], New, 4, 2, [A, B, C, D, E, F, G, H, I, J, K, L, M, New, O, P]) :- letter(New).
 move([A, B, C, D, E, F, G, H, I, J, K, L, M, N, 0, P], New, 4, 3, [A, B, C, D, E, F, G, H, I, J, K, L, M, N, New, P]) :- letter(New).
 move([A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, 0], New, 4, 4, [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, New]) :- letter(New).
-move(Board, New, X, Y, Board) :- nl, write('ILLEGAL MOVE!'), nl.
+move(Board, New, X, Y, false) :- nl, write('ILLEGAL MOVE!'), nl.

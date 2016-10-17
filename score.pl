@@ -37,7 +37,6 @@ rowscore(Row, Score) :-
 			Score = 0
 		).
 
-
 atomscore(A, S) :-
 		(word(A) -> 
 			atom_length(A, S)
