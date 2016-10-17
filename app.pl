@@ -8,6 +8,7 @@
 :- consult(score).
 :- consult(util).
 :- use_module(library(lists)).
+:- use_module(library(random)).
 
 :- load_words('words2.txt').
 :- load_words('words3.txt').

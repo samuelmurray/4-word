@@ -4,7 +4,7 @@
 
 optimalboard(Board) :-
 		Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P],
-		Goal = 16, % It did not find solution for Goal = 14.
+		Goal = 10, % Does not find solution for Goal = 14. Succeeds for Goal = 10.
 		% Row1
 		letter(A), letter(B), letter(C), letter(D), 
 		rowscore([A, B, C, D], S1), S1 >= Goal,

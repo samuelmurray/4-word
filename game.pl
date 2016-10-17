@@ -4,33 +4,40 @@
 
 :- ensure_loaded(board).
 :- ensure_loaded(score).
+:- ensure_loaded(util).
 
-play :- emptyboard(Board), explain(Board), playfrom(Board).
+play :- emptyboard(Board), explain(Board), playsolo(Board).
 
 explain(Startboard) :-
 		write('You play by entering a new letter at a position (x, y).'),
 		displayboard(Startboard).
 
-playfrom(Board) :- 
-		fullboard(Board), 
+eog(Board) :-
 		displayboard(Board),
-		write('Your board is full!'), nl,
+		write('The board is full!'), nl,
 		score(Board, S),
 		write('Your score was: '), display(S).
 
-playfrom(Board) :- 
-		read(A), read(X), read(Y),
-		move(Board, A, X, Y, Newboard), 
+playsolo(Board) :- 
+		fullboard(Board), 
+		eog(Board).
+playsolo(Board) :- 
+		write('Choose a letter and position.')
+		read(L), read(X), read(Y),
+		move(Board, L, X, Y, Newboard), 
 		displayboard(Newboard),
-		playfrom(Newboard).
+		playsolo(Newboard).
 
-displayboard(Board) :-
-		Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P],
-		nl, write('Current board is:'),
-		nl, display(A), display(B), display(C), display(D),
-		nl, display(E), display(F), display(G), display(H),
-		nl, display(I), display(J), display(K), display(L),
-		nl, display(M), display(N), display(O), display(P), nl.
+playrandom(Board) :-
+		fullboard(Board),
+		eog(Board).
+playrandom(Board) :-
+		randomletter(L),
+		write('Next letter is: '), display(L), write('. Where do you want to place it?'), nl,
+		read(X), read(Y),
+		move(Board, L, X, Y, Newboard),
+		displayboard(Newboard),
+		playrandom(Newboard).
 
 move([0, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 1, [New, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P]).
 move([A, 0, C, D, E, F, G, H, I, J, K, L, M, N, O, P], New, 1, 2, [A, New, C, D, E, F, G, H, I, J, K, L, M, N, O, P]).

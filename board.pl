@@ -25,3 +25,11 @@ cols(Board, Col1, Col2, Col3, Col4) :-
 		Col2 = [B, F, J, N],
 		Col3 = [C, G, K, O],
 		Col4 = [D, H, L, P].
+
+displayboard(Board) :-
+		Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P],
+		nl, write('Current board is:'),
+		nl, display(A), display(B), display(C), display(D),
+		nl, display(E), display(F), display(G), display(H),
+		nl, display(I), display(J), display(K), display(L),
+		nl, display(M), display(N), display(O), display(P), nl.
