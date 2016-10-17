@@ -4,7 +4,7 @@
 
 :- ensure_loaded(board).
 :- ensure_loaded(score).
-:- ensure_loaded(util).
+:- ensure_loaded(alphabet).
 
 play(Mode) :- explain, playmode(Mode).
 

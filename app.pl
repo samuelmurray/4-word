@@ -6,7 +6,7 @@
 :- consult(ai).
 :- consult(load_words).
 :- consult(score).
-:- consult(util).
+:- consult(alphabet).
 :- use_module(library(lists)).
 :- use_module(library(random)).
 

@@ -1,6 +1,6 @@
 % A 4-word program in Prolog. Samuel Murray.
 
-% Utility predicates.
+% Predicates for letters in the alphabet.
 
 :- use_module(library(random)).
 

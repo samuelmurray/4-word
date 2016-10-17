@@ -2,9 +2,23 @@
 
 % Predicates to simulate AI player.
 
-optimalboard(Board) :-
+:- ensure_loaded(board).
+:- ensure_loaded(score).
+
+% Does not find solution for Goal = 14. 
+% Succeeds for Goal = 13 - score 110
+%	lame
+%	ahem
+%	menu
+%	emus
+%
+optimalboard(Goal) :-
+		optimalboard(Goal, Board),
+		displayboard(Board),
+		score(Board, S),
+		write('The found board has score: '), display(S).
+optimalboard(Goal, Board) :-
 		Board = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P],
-		Goal = 10, % Does not find solution for Goal = 14. Succeeds for Goal = 10.
 		% Row1
 		letter(A), letter(B), letter(C), letter(D), 
 		rowscore([A, B, C, D], S1), S1 >= Goal,
