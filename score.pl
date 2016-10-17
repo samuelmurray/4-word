@@ -23,7 +23,7 @@ score(Board, S) :-
 % rowscore(+Row, -Score)
 %	Split the row into words of length 2, 3 and 4. Sum the score of each word
 rowscore(Row, Score) :- 
-		Row = [A, B, C, D]
+		Row = [A, B, C, D],
 		atom_concat(A, B, AB),
 		atom_concat(B, C, BC),
 		atom_concat(C, D, CD),
@@ -36,7 +36,7 @@ rowscore(Row, Score) :-
 		atomscore(ABC, S4),
 		atomscore(BCD, S5),
 		atomscore(ABCD, S6),
-		sumlist([S1, S2, S3, S4, S5, S6], Score)
+		sumlist([S1, S2, S3, S4, S5, S6], Score).
 
 % atomscore(+A, -S)
 %	Return length(A) if A is a word, otherwise 0
