@@ -18,21 +18,22 @@ The code is separated into multiple files:
 ## How to run:
 
 Start Prolog and load the file **main.pl**. If you have SICStus installed, this can be done by simply calling
-
-    make
-
+```
+$ make
+```
 There are several game modes:
-1. solo - you choose all letters by yourself
-2. random - letters are chosen randomly for you
-3. versus - two player game, where you alternate to choose letter
-4. vsai - you play vs an ai, where you alternate to choose letter
+l. solo - you choose all letters by yourself
+l. random - letters are chosen randomly for you
+l. versus - two player game, where you alternate to choose letter
+l. vsai - you play vs an ai, where you alternate to choose letter
 
 To start a new game, type 
-
-    play(MODE).
-
+```prolog
+play(MODE).
+```
 with one of the modes above.
 
 Alternatively, the predicates in **solver.pl** can be used to find high scoring game boards. To find a board where each row and column has score >= S, type
-	
-	optimalboard(S).
+```prolog
+optimalboard(S).
+```
