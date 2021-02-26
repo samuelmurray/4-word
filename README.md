@@ -19,14 +19,13 @@ The code is separated into multiple files:
 
 ### Docker
 A docker image is provided to run the game. 
-```
-$ docker pull samuelmurray/4-word
+```bash
 $ docker run -it samuelmurray/4-word
 ```
 
 ### SWI-Prolog
 Alternatively, if you have SWI-Prolog installed you can run it directly from the terminal. You can use the provided makefile and simply run
-```
+```bash
 $ make
 ```
 
