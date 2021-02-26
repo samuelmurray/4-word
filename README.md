@@ -22,10 +22,10 @@ Start Prolog and load the file **main.pl**. If you have SICStus installed, this 
 $ make
 ```
 There are several game modes:
-l. solo - you choose all letters by yourself
-l. random - letters are chosen randomly for you
-l. versus - two player game, where you alternate to choose letter
-l. vsai - you play vs an ai, where you alternate to choose letter
+1. solo - you choose all letters by yourself
+1. random - letters are chosen randomly for you
+1. versus - two player game, where you alternate to choose letter
+1. vsai - you play vs an ai, where you alternate to choose letter
 
 To start a new game, type 
 ```prolog
