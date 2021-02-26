@@ -17,10 +17,20 @@ The code is separated into multiple files:
 
 ## How to run:
 
-Start Prolog and load the file **main.pl**. If you have SICStus installed, this can be done by simply calling
+### Docker
+A docker image is provided to run the game. 
+```
+$ docker pull samuelmurray/4-word
+$ docker run -it samuelmurray/4-word
+```
+
+### SWI-Prolog
+Alternatively, if you have SWI-Prolog installed you can run it directly from the terminal. You can use the provided makefile and simply run
 ```
 $ make
 ```
+
+### Navigating in prolog
 There are several game modes:
 1. solo - you choose all letters by yourself
 1. random - letters are chosen randomly for you
