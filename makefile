@@ -7,4 +7,4 @@ FLAGS = -l main.pl
 default: main
 
 main: 
-	sicstus $(FLAGS)
+	swipl $(FLAGS)
